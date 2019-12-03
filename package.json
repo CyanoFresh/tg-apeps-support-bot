@@ -1,0 +1,29 @@
+{
+  "name": "tg-apeps-support-bot",
+  "version": "0.0.1",
+  "description": "Telegram Support Bot for APEPS",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "debug": "nodemon --inspect ./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CyanoFresh/tg-apeps-support-bot.git"
+  },
+  "author": "Alex Solomaha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CyanoFresh/tg-apeps-support-bot/issues"
+  },
+  "homepage": "https://github.com/CyanoFresh/tg-apeps-support-bot#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "telegraf": "^3.34.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.7.2",
+    "nodemon": "^2.0.1",
+    "prettier": "^1.19.1"
+  }
+}
