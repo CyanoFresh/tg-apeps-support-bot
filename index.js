@@ -5,7 +5,6 @@ if (process.env.NODE_ENV !== 'production') {
 const Telegraf = require('telegraf');
 const config = require('./config');
 const errorHandler = require('./middlewares/errorHandler');
-const { start } = require('./commands');
 
 const bot = new Telegraf(config.botToken);
 
@@ -13,8 +12,19 @@ bot.catch(console.error);
 
 bot.use(errorHandler);
 
-// Register commands
-start.register(bot);
+bot.start(ctx =>
+  ctx.reply('Привет.\nНапиши свой вопрос или предложение и мы ответим тебе в ближайшее время!'));
+
+bot.on('text', (ctx) => {
+  const isFromAdminChat = ctx.update.message.chat.id.toString() === config.adminChatId;
+
+  if (isFromAdminChat && ctx.update.message.reply_to_message) {
+    const originalMsg = ctx.update.message.reply_to_message;
+    return ctx.tg.sendCopy(originalMsg.forward_from.id, ctx.message);
+  }
+
+  return ctx.forwardMessage(config.adminChatId);
+});
 
 bot
   .launch({
