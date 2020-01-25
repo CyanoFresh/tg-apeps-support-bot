@@ -4,16 +4,23 @@ module.exports = async (ctx, next) => {
   try {
     await next();
   } catch (error) {
-    console.error('asyncMiddleware error:', ctx, error);
+    let msg;
 
-    const msg = 'Произошла ошибка :/\nСкоро пофиксим';
+    if (error.code === 403) {
+      msg = 'Бот был заблокирован пользователем';
+    } else {
+      console.error('asyncMiddleware error:', ctx, error);
+
+      await ctx.telegram.sendMessage(config.errorReportChatId, `Error from @${ctx.botInfo.username}:\n${error.stack}`);
+      await ctx.telegram.sendMessage(config.errorReportChatId, JSON.stringify(error));
+
+      msg = 'Произошла ошибка :/\nСкоро пофиксим';
+    }
 
     if (ctx.updateType === 'callback_query') {
       await ctx.editMessageText(msg);
     } else {
       await ctx.reply(msg);
     }
-
-    await ctx.telegram.sendMessage(config.errorReportChatId, `Error from @${ctx.botInfo.username}:\n${error.stack}`);
   }
 };

@@ -18,7 +18,7 @@ bot.start(ctx =>
 bot.on('text', (ctx) => {
   const isFromAdminChat = ctx.update.message.chat.id.toString() === config.adminChatId;
 
-  if (isFromAdminChat && ctx.update.message.reply_to_message) {
+  if (isFromAdminChat && ctx.update.message.reply_to_message && ctx.update.message.reply_to_message.forward_from) {
     const originalMsg = ctx.update.message.reply_to_message;
     return ctx.tg.sendCopy(originalMsg.forward_from.id, ctx.message);
   }
