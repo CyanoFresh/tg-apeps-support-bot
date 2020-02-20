@@ -15,7 +15,7 @@ bot.use(errorHandler);
 bot.start(ctx =>
   ctx.reply('Привет.\nНапиши свой вопрос или предложение и мы ответим тебе в ближайшее время!'));
 
-bot.on('text', (ctx) => {
+bot.on('message', (ctx) => {
   const isFromAdminChat = ctx.update.message.chat.id.toString() === config.adminChatId;
 
   if (isFromAdminChat && ctx.update.message.reply_to_message && ctx.update.message.reply_to_message.forward_from) {
